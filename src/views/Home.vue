@@ -220,328 +220,331 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'home',
-        data() {
-            return {
-                isLogin: 2, // 1是登录, 2是没登录
-                username: '',
-                cartNum: '',
-                hours: '',
-                minutes: '',
-                seconds: '',
-            }
-        },
-        created() {
-            let token = window.sessionStorage.getItem("authentication");
-            if (token) {
-                this.isLogin = 1;
+export default {
+    name: 'home',
+    data () {
+        return {
+            isLogin: 2, // 1是登录, 2是没登录
+            username: '',
+            cartNum: '',
+            hours: '',
+            minutes: '',
+            seconds: '',
+        }
+    },
+    created () {
+        let token = window.sessionStorage.getItem("authentication");
+        if (token) {
+            this.isLogin = 1;
+        } else {
+            this.isLogin = 2;
+        }
+        this.username = window.sessionStorage.getItem("username");
+        this.getCartListFn();
+    },
+    mounted () {
+        let target = new Date("2019-6-6").getTime(); //获取目标时间戳
+        setInterval(() => {
+            let date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+            if (hours < 10) {
+                this.hours = '0' + hours;
             } else {
-                this.isLogin = 2;
+                this.hours = hours;
             }
-            this.username = window.sessionStorage.getItem("username");
-            this.getCartListFn();
-        },
-        mounted() {
-            let target = new Date("2019-6-6").getTime(); //获取目标时间戳
-            setInterval(() => {
-                let date = new Date();
-                let hours = date.getHours();
-                let minutes = date.getMinutes();
-                let seconds = date.getSeconds();
-                if (hours < 10) {
-                    this.hours = '0' + hours;
-                } else {
-                    this.hours = hours;
-                }
-                this.minutes = minutes;
-                this.seconds = seconds;
-            }, 1000)
-        },
-        methods: {
-            async getCartListFn() {
-                let user_id = window.sessionStorage.getItem("user_id");
-
+            this.minutes = minutes;
+            this.seconds = seconds;
+        }, 1000)
+    },
+    methods: {
+        async getCartListFn () {
+            let user_id = window.sessionStorage.getItem("user_id");
+            if (user_id) {
                 const res = await this.$ajax.get(`retail_cart/${user_id}/`);
                 let result = JSON.parse(res.data);
                 // console.log(result);
                 this.cartNum = result.length;
                 // let cartNum
-            },
-            toCart() {
-                this.$router.push("/cart")
-            },
-            toLogin() {
-                this.$router.push("/login")
-            },
-            toUser() {
-                this.$router.push("/user")
-            },
-            toRegister() {
-                this.$router.push("/register")
-            },
-            toOrder() {
-                let token = window.sessionStorage.getItem("authentication");
-                if (!token) {
-                    this.$message({
-                        type: "warning",
-                        message: "Please login"
-                    })
-                    return;
-                }
-                this.$router.push("/order")
-            },
-            toDetail() {
-                this.$router.push("/detail")
-            },
-            // 退出登录
-            toLogout() {
-                let _mainObj = window.sessionStorage.getItem('_mainObj');
-                if (_mainObj) {
-                    this.$confirm("是否退出登陆？", "提示", {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    }).then(() => {
-                        window.sessionStorage.removeItem('_mainObj');
-                        // window.sessionStorage.removeItem('username');
-                        window.sessionStorage.removeItem('authentication');
-                        window.sessionStorage.removeItem('user_id');
-                        this.$router.push('/login');
-                    });
-                }
-            },
+            }
         },
-    }
+        toCart () {
+            this.$router.push("/cart")
+        },
+        toLogin () {
+            this.$router.push("/login")
+        },
+        toUser () {
+            this.$router.push("/user")
+        },
+        toRegister () {
+            this.$router.push("/register")
+        },
+        toOrder () {
+            let token = window.sessionStorage.getItem("authentication");
+            if (!token) {
+                this.$message({
+                    type: "warning",
+                    message: "Please login"
+                })
+                return;
+            }
+            this.$router.push("/order")
+        },
+        toDetail () {
+            this.$router.push("/detail")
+        },
+        // 退出登录
+        toLogout () {
+            let _mainObj = window.sessionStorage.getItem('_mainObj');
+            if (_mainObj) {
+                this.$confirm("是否退出登陆？", "提示", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning"
+                }).then(() => {
+                    window.sessionStorage.removeItem('_mainObj');
+                    // window.sessionStorage.removeItem('username');
+                    window.sessionStorage.removeItem('authentication');
+                    window.sessionStorage.removeItem('user_id');
+                    // this.$router.push('/login');
+                    // window.location
+                    location.reload();
+                });
+            }
+        },
+    },
+}
 </script>
 
 
 <style scoped lang="less">
-    .root {
-        img {
-            cursor: pointer;
+.root {
+    img {
+        cursor: pointer;
+    }
+
+    // height: 5000px;
+    .header {
+        background-color: #d19886;
+        height: 80px;
+        width: 100%;
+
+        .header-view {
+            margin: 0 auto;
+            width: 1440px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 136px;
+            padding-right: 136px;
         }
 
-        // height: 5000px;
-        .header {
-            background-color: #d19886;
-            height: 80px;
-            width: 100%;
+        .title {
+            font-size: 28px;
+            font-size: 28px;
+            font-family: Microsoft YaHei;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 1);
+        }
 
-            .header-view {
-                margin: 0 auto;
-                width: 1440px;
+        .headTimer {
+            width: 331px;
+            height: 100%;
+
+            .time_view {
+                display: flex;
                 height: 100%;
-                display: flex;
-                justify-content: space-between;
                 align-items: center;
-                padding-left: 136px;
-                padding-right: 136px;
-            }
-
-            .title {
-                font-size: 28px;
-                font-size: 28px;
-                font-family: Microsoft YaHei;
-                font-weight: bold;
-                color: rgba(255, 255, 255, 1);
-            }
-
-            .headTimer {
-                width: 331px;
-                height: 100%;
-
-                .time_view {
-                    display: flex;
-                    height: 100%;
-                    align-items: center;
-
-                    .item {
-                        width: 64px;
-                        height: 64px;
-                        border-radius: 10px;
-                        position: relative;
-
-                        >span {
-                            display: inline-block;
-                            height: 32px;
-                            width: 64px;
-                            background-color: #ccc;
-                        }
-
-                        .one {
-                            position: absolute;
-                            border-radius: 5px 5px 0 0;
-                            left: 0;
-                            top: 0;
-                            background-color: #e2e2e2;
-                        }
-
-                        .two {
-                            position: absolute;
-                            border-radius: 0 0 5px 5px;
-                            left: 0;
-                            top: 32px;
-                            background-color: #e9e9e9;
-                        }
-
-                        .num {
-                            position: absolute;
-                            left: 50%;
-                            top: 50%;
-                            transform: translate(-50%, -50%);
-                            font-size: 36px;
-                        }
-                    }
-                    p {
-                        padding: 0 7px;
-                        font-size: 40px;
-                        color: #fff;
-                    }
-                }
-            }
-        }
-
-        .nav {
-            width: 100%;
-            background-color: #f8f4ef;
-            .nav-view {
-                width: 1440px;
-                margin: 0 auto;
-                height: 125px;
-                position: relative;
-            }
-
-            .logo {
-                background-color: #f8f4ef;
-                height: 125px;
-                overflow: hidden;
-
-                img {
-                    width: 234px;
-                    height: 125px;
-                    margin-top: 10px;
-                }
-            }
-
-            .icons {
-                background-color: #f8f4ef;
-                // background-color: #fff;
-                display: flex;
-                height: 125px;
-                align-items: center;
-
-                img {
-                    width: 30px;
-                    height: 30px;
-                }
-
-                .prices {
-                    margin-top: 7px;
-                }
-
-                /deep/ .el-badge {
-                    margin-right: 20px;
-                }
-            }
-
-            .menu {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-                margin-right: 50px;
-                background-color: #f8f4ef !important;
-                // background-color: #fff !important;
-                height: 125px;
-                line-height: 125px;
-                display: flex;
-                align-items: center;
-
-                /deep/ .el-menu-item {
-                    background-color: #f8f4ef !important;
-                    // background-color: #fff !important;
-                    border-bottom: 0 !important;
-                }
-
-                /deep/ .el-menu {
-                    border-bottom: 0 !important;
-                }
-            }
-
-            .boxS {
-                display: flex;
-                align-items: center;
-            }
-
-            .userName {
-                margin-left: 6px;
-                color: #555;
-                font-size: 14px;
-                cursor: pointer;
-            }
-
-            .userName:hover {
-                color: #f40;
-            }
-        }
-
-        .footer {
-            height: 286px;
-            width: 100%;
-            background-color: #d19886;
-
-            .footer_view {
-                padding-top: 50px;
-                padding-bottom: 60px;
-                display: flex;
 
                 .item {
-                    float: left;
-                    text-align: left;
-                    margin-right: 160px;
-                    font-size: 20px;
-                    font-family: Microsoft YaHei;
-                    font-weight: 400;
-                    color: rgba(255, 255, 255, 1);
+                    width: 64px;
+                    height: 64px;
+                    border-radius: 10px;
+                    position: relative;
 
-                    .title {
-                        margin-bottom: 15px;
-                        font-size: 24px;
+                    > span {
+                        display: inline-block;
+                        height: 32px;
+                        width: 64px;
+                        background-color: #ccc;
                     }
 
-                    p {
-                        margin-bottom: 15px;
+                    .one {
+                        position: absolute;
+                        border-radius: 5px 5px 0 0;
+                        left: 0;
+                        top: 0;
+                        background-color: #e2e2e2;
+                    }
+
+                    .two {
+                        position: absolute;
+                        border-radius: 0 0 5px 5px;
+                        left: 0;
+                        top: 32px;
+                        background-color: #e9e9e9;
+                    }
+
+                    .num {
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        font-size: 36px;
                     }
                 }
-
-                .item:last-child {
-                    margin-right: 0;
+                p {
+                    padding: 0 7px;
+                    font-size: 40px;
+                    color: #fff;
                 }
-
-                .imgs {
-                    img {
-                        width: 44px;
-                        height: 44px;
-                        margin-right: 14px;
-                    }
-
-                    img:last-child {
-                        margin: 0;
-                    }
-                }
-            }
-
-            .reds {
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                color: red;
             }
         }
     }
+
+    .nav {
+        width: 100%;
+        background-color: #f8f4ef;
+        .nav-view {
+            width: 1440px;
+            margin: 0 auto;
+            height: 125px;
+            position: relative;
+        }
+
+        .logo {
+            background-color: #f8f4ef;
+            height: 125px;
+            overflow: hidden;
+
+            img {
+                width: 234px;
+                height: 125px;
+                margin-top: 10px;
+            }
+        }
+
+        .icons {
+            background-color: #f8f4ef;
+            // background-color: #fff;
+            display: flex;
+            height: 125px;
+            align-items: center;
+
+            img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .prices {
+                margin-top: 7px;
+            }
+
+            /deep/ .el-badge {
+                margin-right: 20px;
+            }
+        }
+
+        .menu {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-right: 50px;
+            background-color: #f8f4ef !important;
+            // background-color: #fff !important;
+            height: 125px;
+            line-height: 125px;
+            display: flex;
+            align-items: center;
+
+            /deep/ .el-menu-item {
+                background-color: #f8f4ef !important;
+                // background-color: #fff !important;
+                border-bottom: 0 !important;
+            }
+
+            /deep/ .el-menu {
+                border-bottom: 0 !important;
+            }
+        }
+
+        .boxS {
+            display: flex;
+            align-items: center;
+        }
+
+        .userName {
+            margin-left: 6px;
+            color: #555;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .userName:hover {
+            color: #f40;
+        }
+    }
+
+    .footer {
+        height: 286px;
+        width: 100%;
+        background-color: #d19886;
+
+        .footer_view {
+            padding-top: 50px;
+            padding-bottom: 60px;
+            display: flex;
+
+            .item {
+                float: left;
+                text-align: left;
+                margin-right: 160px;
+                font-size: 20px;
+                font-family: Microsoft YaHei;
+                font-weight: 400;
+                color: rgba(255, 255, 255, 1);
+
+                .title {
+                    margin-bottom: 15px;
+                    font-size: 24px;
+                }
+
+                p {
+                    margin-bottom: 15px;
+                }
+            }
+
+            .item:last-child {
+                margin-right: 0;
+            }
+
+            .imgs {
+                img {
+                    width: 44px;
+                    height: 44px;
+                    margin-right: 14px;
+                }
+
+                img:last-child {
+                    margin: 0;
+                }
+            }
+        }
+
+        .reds {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            color: red;
+        }
+    }
+}
 </style>

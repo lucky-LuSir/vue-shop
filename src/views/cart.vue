@@ -154,7 +154,7 @@
                 </el-table-column>
                 <el-table-column label="Operating" width="225">
                     <template slot-scope="scope">
-                        <div class="imgbox">
+                        <div class="imgbox btnBox">
                             <el-button @click="delCartListFn(scope.row)" type="warning" plain size="small">Delete</el-button>
                             <el-button type="primary" size="small">Collection</el-button>
                         </div>
@@ -398,6 +398,9 @@
                 width: 122px;
                 height: 122px;
             }
+        }
+        .btnBox {
+            white-space: nowrap;
         }
 
         .floor {

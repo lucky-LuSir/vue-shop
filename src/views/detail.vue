@@ -61,21 +61,21 @@
                             <div class="floor">
                                 <div class="ipt_item">
                                     <el-form-item label="WIDTH" prop="width">
-                                        <el-input @click.native="getPriceFn()" v-model="formObj.width"></el-input>
+                                        <el-input placeholder="eg: min 350" @click.native="getPriceFn()" v-model="formObj.width"></el-input>
                                     </el-form-item>
                                 </div>
                             </div>
                             <div class="floor">
                                 <div class="ipt_item">
                                     <el-form-item label="HEIGHT" prop="height">
-                                        <el-input @click.native="getPriceFn()" v-model="formObj.height"></el-input>
+                                        <el-input placeholder="eg: min 350" @click.native="getPriceFn()" v-model="formObj.height"></el-input>
                                     </el-form-item>
                                 </div>
                             </div>
                             <div class="floor">
                                 <div class="ipt_item">
                                     <el-form-item label="Type of Size" prop="size_type">
-                                        <el-radio-group v-model="formObj.size_type">
+                                        <el-radio-group @click.native="getPriceFn()" v-model="formObj.size_type">
                                             <el-radio-button label="Size of Measurement"></el-radio-button>
                                             <el-radio-button label="Size of Actural Shutters"></el-radio-button>
                                         </el-radio-group>
@@ -176,7 +176,7 @@
                             <div class="floor" style="height: 220px;">
                                 <div class="ipt_item">
                                     <el-form-item label="Louver Size" prop="Leaf_type">
-                                        <el-radio-group v-model="formObj.Leaf_type">
+                                        <el-radio-group @click.native="getPriceFn()" v-model="formObj.Leaf_type">
                                             <el-radio-button label="63.5"></el-radio-button>
                                             <el-radio-button label="89.9"></el-radio-button>
                                             <el-radio-button label="114"></el-radio-button>
@@ -189,7 +189,7 @@
                             <div class="floor">
                                 <div class="ipt_item">
                                     <el-form-item label="Tilt Rod Type" prop="rod_type">
-                                        <el-radio-group v-model="formObj.rod_type">
+                                        <el-radio-group @click.native="getPriceFn()" v-model="formObj.rod_type">
                                             <el-radio-button label="Centre Tilt Rod"></el-radio-button>
                                             <el-radio-button label="Hidden Rod"></el-radio-button>
                                         </el-radio-group>
@@ -211,7 +211,7 @@
                             <div class="floor">
                                 <div class="ipt_item nums">
                                     <el-form-item label="Number">
-                                        <el-input-number v-model="formObj.Numbers" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                                        <el-input-number @click.native="getPriceFn()" v-model="formObj.Numbers" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
                                     </el-form-item>
                                 </div>
                             </div>
@@ -306,67 +306,67 @@
                 rules: {
                     material: [{
                         required: true,
-                        message: "请选择material",
+                        message: "Please select materia",
                         trigger: "change"
                     }],
                     width: [{
                         required: true,
-                        message: "请输入width",
+                        message: "Please select width",
                         trigger: "change"
                     }],
                     height: [{
                         required: true,
-                        message: "请输入height",
+                        message: "Please select height",
                         trigger: "change"
                     }],
                     size_type: [{
                         required: true,
-                        message: "请输入size_type",
+                        message: "Please select size_type",
                         trigger: "change"
                     }],
                     sash_type: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select sash_type",
                         trigger: "change"
                     }],
                     close_mode: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select close_mode",
                         trigger: "change"
                     }],
                     plate_num: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select plate_num",
                         trigger: "change"
                     }],
                     bar_type: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select bar_type",
                         trigger: "change"
                     }],
                     color: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select color",
                         trigger: "change"
                     }],
                     Leaf_type: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select Leaf_type",
                         trigger: "change"
                     }],
                     rod_type: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select rod_type",
                         trigger: "change"
                     }],
                     Louver_type: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select Louver_type",
                         trigger: "change"
                     }],
                     server: [{
                         required: true,
-                        message: "请输入原密码",
+                        message: "Please select server",
                         trigger: "change"
                     }],
 
@@ -384,22 +384,22 @@
                     if (valid) {
                         let user_id = window.sessionStorage.getItem("user_id");
                         this.cartParamObj = {
-                            user_id: user_id ? user_id : '',
+                            user_id: user_id ? +(user_id) : '',
                             material: this.formObj.material,
-                            width: this.formObj.width,
-                            length: this.formObj.height,
+                            width: +(this.formObj.width),
+                            length: +(this.formObj.height),
                             type_of_size: this.formObj.size_type,
                             installation_syle: this.formObj.sash_type,
                             panels: this.formObj.sashes_num,
                             configurations: this.formObj.close_mode,
-                            number_of_midrails: this.formObj.plate_num,
+                            number_of_midrails: +(this.formObj.plate_num),
                             number_of_frames: this.formObj.bars_num,
                             frame_type: this.formObj.bar_type,
                             colour: this.formObj.color,
                             louver_size: this.formObj.Leaf_type,
                             tilt_rod_tupe: this.formObj.rod_type,
-                            number_of_shutters: this.formObj.Numbers,
-                            install_service: this.formObj.server,
+                            number_of_shutters: +(this.formObj.Numbers),
+                            install_service: this.formObj.server == "true" ? 1 : 0,
                             price: this.newPrice
                         }
                         console.log(this.cartParamObj);
@@ -426,7 +426,7 @@
                 });
             },
             async getPriceFn() {
-                if (this.formObj.material && this.formObj.width && this.formObj.height && this.formObj.color && this.formObj.Numbers) {
+                // if (this.formObj.material && this.formObj.width && this.formObj.height && this.formObj.color && this.formObj.Numbers) {
                     let paramObj = {
                         material: this.formObj.material,
                         color: this.formObj.color,
@@ -439,9 +439,9 @@
                     const res = await this.$ajax.post(`/get_price/`, paramObj);
                     this.oldPrice = res.data.actual_price;
                     this.newPrice = res.data.discount_price;
-                } else {
-                    console.log("请完善信息");
-                }
+                // } else {
+                //     console.log("请完善信息");
+                // }
             },
             loginSys(formName) {
                 if (this.loginObj) {

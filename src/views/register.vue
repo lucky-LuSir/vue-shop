@@ -207,7 +207,7 @@ export default {
 }
 .login_view {
     float: right;
-    width: 427px;
+    width: 450px;
     height: 646px;
     background: rgba(255, 255, 255, 1);
     border-radius: 16px;
@@ -233,9 +233,10 @@ export default {
             font-family: Source Han Sans CN;
             font-weight: 400;
             color: rgba(153, 153, 153, 1);
-            min-width: 110px !important;
+            min-width: 123px !important;
             text-align: left;
-            width: 120px !important;
+            width: 123px !important;
+            white-space: nowrap;
         }
         /deep/ .el-input__inner {
             width: 254px;

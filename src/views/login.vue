@@ -10,7 +10,7 @@
                         <img src="../assets/login001.png" alt="">
                     </div>
                     <el-form-item label="" prop="keyword">
-                        <el-input type="password" placeholder="please enter account" v-model="loginObj.keyword"></el-input>
+                        <el-input placeholder="please enter account" v-model="loginObj.keyword"></el-input>
                     </el-form-item>
                 </div>
                 <div class="ipt_item">
@@ -18,7 +18,7 @@
                         <img src="../assets/login002.png" alt="">
                     </div>
                     <el-form-item label="" prop="password">
-                        <el-input placeholder="please enter  pin"  @keyup.enter.native="loginSys('loginObj')"  v-model="loginObj.password"></el-input>
+                        <el-input type="password" placeholder="please enter  pin"  @keyup.enter.native="loginSys('loginObj')"  v-model="loginObj.password"></el-input>
                     </el-form-item>
                 </div>
                 <div class="btns">
@@ -73,7 +73,6 @@ export default {
                         console.log(res);
                         
                         if (res.status === 200) {
-                            this.$router.push('/index');
                             var _mainObj = {
                                 'user_id': res.data.user_id,
                                 'token': res.data.token,
@@ -85,6 +84,8 @@ export default {
                             window.sessionStorage.setItem("username", res.data.username);
                             window.sessionStorage.setItem("authentication", JSON.stringify(token));
                             window.sessionStorage.setItem("user_id", res.data.user_id);
+                            this.$router.push('/index');
+                            location.reload();
                         }
                     }
                 });
